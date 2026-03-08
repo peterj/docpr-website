@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>docpr — Documentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f2ec;
+      --ink: #1a1814;
+      --ink-mid: #4a4740;
+      --ink-soft: #7a7568;
+      --ink-faint: #b0a99e;
+      --green: #2c5f3f;
+      --green-bg: #e8efea;
+      --border: #d4cfc4;
+      --surface: #edeae3;
+      --white: #faf7f2;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ---- NAV ---- */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topnav-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0.7rem clamp(1.25rem, 4vw, 2rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .topnav-brand {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .topnav-brand em {
+      font-style: italic;
+      color: var(--green);
+    }
+    .topnav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .topnav-links a {
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .topnav-links a:hover { color: var(--green); }
+
+    /* ---- HERO ---- */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2rem) clamp(1.5rem, 4vw, 3rem);
+    }
+    .hero-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.05s;
+    }
+    .hero h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.15s;
+    }
+    .hero h1 em { font-style: italic; color: var(--green); }
+    .hero-sub {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      line-height: 1.75;
+      max-width: 520px;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.25s;
+    }
+
+    /* ---- FLOW ---- */
+    .flow-section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 4vw, 2rem) clamp(2rem, 4vw, 3rem);
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.35s;
+    }
+    .flow-strip {
+      border-top: 1px solid var(--border);
+    }
+    .flow-step {
+      display: grid;
+      grid-template-columns: 1.6rem 1fr;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+    .flow-step-num {
+      font-size: 0.62rem;
+      color: var(--ink-faint);
+    }
+    .flow-step-text {
+      font-size: 0.78rem;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+    .flow-step-text strong {
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    /* ---- CONTENT GRID ---- */
+    .content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 4vw, 2rem);
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: clamp(1.5rem, 3vw, 3rem);
+    }
+    @media (max-width: 720px) {
+      .content { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    /* ---- SIDEBAR ---- */
+    .sidebar {
+      position: sticky;
+      top: 4rem;
+      align-self: start;
+      padding-top: 1.5rem;
+    }
+    .sidebar-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.6rem;
+    }
+    .sidebar nav a {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      text-decoration: none;
+      padding: 0.25rem 0;
+      padding-left: 0.7rem;
+      border-left: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .sidebar nav a:hover,
+    .sidebar nav a.active {
+      color: var(--green);
+      border-left-color: var(--green);
+    }
+
+    /* ---- ARTICLE ---- */
+    .article {
+      padding: 1.5rem 0 5rem;
+      min-width: 0;
+    }
+    .article section {
+      margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+    }
+    .article h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 400;
+      margin-bottom: 0.6rem;
+      padding-top: 0.25rem;
+    }
+    .article h3 {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-top: 1.75rem;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+    .article p {
+      font-size: 0.82rem;
+      color: var(--ink-mid);
+      margin-bottom: 0.85rem;
+      line-height: 1.7;
+    }
+    .article p strong {
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .article ul, .article ol {
+      margin-bottom: 0.85rem;
+      padding-left: 1.1rem;
+      color: var(--ink-mid);
+      font-size: 0.82rem;
+    }
+    .article li {
+      margin-bottom: 0.3rem;
+      line-height: 1.65;
+    }
+    .article a {
+      color: var(--green);
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 2px;
+      transition: text-decoration-color 0.15s;
+    }
+    .article a:hover {
+      text-decoration-color: var(--green);
+    }
+
+    /* ---- CODE ---- */
+    code {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82em;
+      font-weight: 400;
+      background: var(--surface);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+    pre {
+      background: var(--ink);
+      color: #d8d3c8;
+      border-radius: 0;
+      border: 1px solid var(--border);
+      padding: 1.1rem 1.25rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      line-height: 1.7;
+      font-size: 0.76rem;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: inherit;
+      color: inherit;
+    }
+    .code-filename {
+      display: inline-block;
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-faint);
+      margin-bottom: 0;
+    }
+    .token-key { color: #a8c4a0; }
+    .token-string { color: #d8d3c8; }
+    .token-comment { color: #6a6560; font-style: italic; }
+    .token-bool { color: #c8b888; }
+    .token-action { color: #88b8a8; }
+
+    /* ---- TABLE ---- */
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+    thead th {
+      text-align: left;
+      font-weight: 400;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-mid);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    tr:last-child td { border-bottom: none; }
+    td code { font-size: 0.82em; white-space: nowrap; }
+    .required-badge {
+      display: inline-block;
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 0.1em 0.35em;
+      border-radius: 2px;
+      margin-left: 0.3rem;
+    }
+    .default-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82em;
+      color: var(--ink-faint);
+    }
+
+    /* ---- CALLOUT ---- */
+    .callout {
+      padding: 0.85rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.78rem;
+      border-left: 2px solid var(--border);
+      color: var(--ink-mid);
+    }
+    .callout-info { border-left-color: var(--green); }
+    .callout-warn { border-left-color: #b89848; }
+    .callout p { margin: 0; font-size: inherit; color: inherit; }
+    .callout strong { font-weight: 400; color: var(--ink); }
+
+    /* ---- PIPELINE ---- */
+    .pipeline-step {
+      display: grid;
+      grid-template-columns: 1.6rem 1fr;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+    .pipeline-step:first-of-type { border-top: 1px solid var(--border); }
+    .pipeline-num {
+      font-size: 0.62rem;
+      color: var(--ink-faint);
+    }
+    .pipeline-body h4 {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.15rem;
+    }
+    .pipeline-body p {
+      font-size: 0.78rem;
+      color: var(--ink-mid);
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    /* ---- FOOTER ---- */
+    .site-footer {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 1.5rem clamp(1.25rem, 4vw, 2rem);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+    }
+    .site-footer a {
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .site-footer a:hover { color: var(--green); }
+
+    /* ---- ANIMATION ---- */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; opacity: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="topnav-brand">doc<em>pr</em></a>
+    <ul class="topnav-links">
+      <li><a href="#quick-start">Quick Start</a></li>
+      <li><a href="#inputs">Config</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="https://github.com/peterj/docpr" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="hero">
+  <p class="hero-eyebrow">Documentation</p>
+  <h1>Keep docs in sync with every <em>merged PR</em></h1>
+  <p class="hero-sub">
+    docpr analyzes your code changes with Claude, identifies affected documentation
+    in a separate repo, and opens a pull request with the updates — automatically.
+  </p>
+</div>
+
+<div class="flow-section">
+  <div class="flow-strip">
+    <div class="flow-step">
+      <span class="flow-step-num">01</span>
+      <span class="flow-step-text"><strong>PR merges</strong> in your code repository.</span>
+    </div>
+    <div class="flow-step">
+      <span class="flow-step-num">02</span>
+      <span class="flow-step-text"><strong>LLM reads the diff</strong> and produces a structured change analysis.</span>
+    </div>
+    <div class="flow-step">
+      <span class="flow-step-num">03</span>
+      <span class="flow-step-text"><strong>Affected doc files</strong> are identified in your docs repo.</span>
+    </div>
+    <div class="flow-step">
+      <span class="flow-step-num">04</span>
+      <span class="flow-step-text"><strong>Updated content is generated</strong> preserving tone and structure.</span>
+    </div>
+    <div class="flow-step">
+      <span class="flow-step-num">05</span>
+      <span class="flow-step-text"><strong>A PR lands in your docs repo</strong> with changes linked back to the source.</span>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <aside class="sidebar">
+    <p class="sidebar-label">On this page</p>
+    <nav>
+      <a href="#quick-start">Quick Start</a>
+      <a href="#inputs">Inputs</a>
+      <a href="#outputs">Outputs</a>
+      <a href="#full-example">Full Example</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#supported-formats">Supported Formats</a>
+      <a href="#token-usage">Token Usage</a>
+      <a href="#permissions">Permissions</a>
+    </nav>
+  </aside>
+
+  <main class="article">
+
+    <section id="quick-start">
+      <h2>Quick Start</h2>
+      <p>
+        Add this workflow to your source repository at <code>.github/workflows/docpr.yml</code>.
+        The action triggers when a pull request is merged and handles everything else.
+      </p>
+      <div class="code-filename">.github/workflows/docpr.yml</div>
+<pre><code><span class="token-key">name</span>: docpr
+
+<span class="token-key">on</span>:
+  <span class="token-key">pull_request</span>:
+    <span class="token-key">types</span>: [closed]
+
+<span class="token-key">jobs</span>:
+  <span class="token-key">sync-docs</span>:
+    <span class="token-key">if</span>: github.event.pull_request.merged == true
+    <span class="token-key">runs-on</span>: ubuntu-latest
+    <span class="token-key">permissions</span>:
+      <span class="token-key">contents</span>: read
+
+    <span class="token-key">steps</span>:
+      - <span class="token-key">name</span>: Sync documentation
+        <span class="token-key">uses</span>: <span class="token-action">peterj/docpr@v1</span>
+        <span class="token-key">with</span>:
+          <span class="token-key">anthropic_api_key</span>: <span class="token-string">${{ secrets.ANTHROPIC_API_KEY }}</span>
+          <span class="token-key">docs_repo</span>: <span class="token-string">"your-org/your-docs-repo"</span>
+          <span class="token-key">docs_repo_token</span>: <span class="token-string">${{ secrets.DOCS_REPO_TOKEN }}</span>
+          <span class="token-key">docs_path</span>: <span class="token-string">"docs/"</span></code></pre>
+      <div class="callout callout-info">
+        <p><strong>Tip —</strong> You only need three secrets: an Anthropic API key and a GitHub token with write access to the docs repo. The source repo token defaults to <code>github.token</code>.</p>
+      </div>
+    </section>
+
+    <section id="inputs">
+      <h2>Inputs</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Input</th>
+              <th>Description</th>
+              <th>Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>anthropic_api_key</code> <span class="required-badge">required</span></td>
+              <td>Anthropic API key for Claude.</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><code>docs_repo</code> <span class="required-badge">required</span></td>
+              <td>Documentation repository in <code>owner/repo</code> format.</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><code>docs_repo_token</code> <span class="required-badge">required</span></td>
+              <td>GitHub token with <code>contents: write</code> and <code>pull-requests: write</code> on the docs repo.</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><code>docs_base_branch</code></td>
+              <td>Base branch in the docs repo to branch from and PR into.</td>
+              <td><span class="default-val">main</span></td>
+            </tr>
+            <tr>
+              <td><code>docs_path</code></td>
+              <td>Subdirectory to search for documentation files (e.g. <code>docs/</code> or <code>content/</code>).</td>
+              <td><span class="default-val">""</span></td>
+            </tr>
+            <tr>
+              <td><code>source_repo_token</code></td>
+              <td>Token for reading the source repository.</td>
+              <td><span class="default-val">github.token</span></td>
+            </tr>
+            <tr>
+              <td><code>model</code></td>
+              <td>Claude model to use for analysis and generation.</td>
+              <td><span class="default-val">claude-opus-4-5</span></td>
+            </tr>
+            <tr>
+              <td><code>max_doc_files</code></td>
+              <td>Maximum number of doc files to fetch and analyze. Controls token usage on large doc repos.</td>
+              <td><span class="default-val">20</span></td>
+            </tr>
+            <tr>
+              <td><code>pr_label</code></td>
+              <td>Label applied to created documentation PRs.</td>
+              <td><span class="default-val">docpr</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="outputs">
+      <h2>Outputs</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Output</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>docs_pr_url</code></td>
+              <td>URL of the created documentation PR. Empty if no changes were needed.</td>
+            </tr>
+            <tr>
+              <td><code>updated_files</code></td>
+              <td>JSON array of updated file paths, e.g. <code>["docs/api.md","docs/config.md"]</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="full-example">
+      <h2>Full Example</h2>
+      <p>
+        A complete workflow showing all optional inputs and a follow-up step that reports results.
+      </p>
+      <div class="code-filename">.github/workflows/docpr.yml</div>
+<pre><code><span class="token-key">name</span>: docpr
+
+<span class="token-key">on</span>:
+  <span class="token-key">pull_request</span>:
+    <span class="token-key">types</span>: [closed]
+
+<span class="token-key">jobs</span>:
+  <span class="token-key">sync-docs</span>:
+    <span class="token-key">if</span>: github.event.pull_request.merged == true
+    <span class="token-key">runs-on</span>: ubuntu-latest
+    <span class="token-key">permissions</span>:
+      <span class="token-key">contents</span>: read
+
+    <span class="token-key">steps</span>:
+      - <span class="token-key">name</span>: Sync documentation
+        <span class="token-key">id</span>: sync-docs
+        <span class="token-key">uses</span>: <span class="token-action">peterj/docpr@v1</span>
+        <span class="token-key">with</span>:
+          <span class="token-key">anthropic_api_key</span>: <span class="token-string">${{ secrets.ANTHROPIC_API_KEY }}</span>
+          <span class="token-key">docs_repo</span>: <span class="token-string">"your-org/your-docs-repo"</span>
+          <span class="token-key">docs_repo_token</span>: <span class="token-string">${{ secrets.DOCS_REPO_TOKEN }}</span>
+          <span class="token-key">docs_base_branch</span>: <span class="token-string">"main"</span>
+          <span class="token-key">docs_path</span>: <span class="token-string">"docs/"</span>
+          <span class="token-key">model</span>: <span class="token-string">"claude-opus-4-5"</span>
+          <span class="token-key">max_doc_files</span>: <span class="token-string">"20"</span>
+          <span class="token-key">pr_label</span>: <span class="token-string">"docpr"</span>
+
+      - <span class="token-key">name</span>: Report result
+        <span class="token-key">if</span>: always()
+        <span class="token-key">run</span>: |
+          PR_URL="${{ steps.sync-docs.outputs.docs_pr_url }}"
+          FILES="${{ steps.sync-docs.outputs.updated_files }}"
+          if [ -n "$PR_URL" ]; then
+            echo "Documentation PR created: $PR_URL"
+            echo "Updated files: $FILES"
+          else
+            echo "No documentation updates needed."
+          fi</code></pre>
+    </section>
+
+    <section id="how-it-works">
+      <h2>How It Works</h2>
+      <p>
+        When a pull request is merged, docpr runs a seven-step pipeline.
+        Each step can exit early if no documentation changes are needed.
+      </p>
+
+      <div class="pipeline-step">
+        <span class="pipeline-num">01</span>
+        <div class="pipeline-body">
+          <h4>Fetch the PR diff</h4>
+          <p>Retrieves the unified diff of the merged pull request. Large diffs are truncated to 80,000 characters (keeping head and tail) to control token usage.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="pipeline-num">02</span>
+        <div class="pipeline-body">
+          <h4>Analyze changes</h4>
+          <p>Claude reads the diff along with the PR title and body, and produces a structured analysis covering API changes, behavior changes, new features, deprecations, configuration changes, and documentation impact.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="pipeline-num">03</span>
+        <div class="pipeline-body">
+          <h4>List documentation files</h4>
+          <p>Fetches the file tree from your docs repo and filters for supported documentation formats. If <code>docs_path</code> is set, only files under that directory are considered. Results are capped at <code>max_doc_files</code>.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="pipeline-num">04</span>
+        <div class="pipeline-body">
+          <h4>Identify relevant docs</h4>
+          <p>Claude reviews the change analysis against the list of doc file paths and returns a JSON array of files that need updating.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="pipeline-num">05</span>
+        <div class="pipeline-body">
+          <h4>Fetch file contents</h4>
+          <p>Loads the full content of each identified documentation file from the docs repo.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="pipeline-num">06</span>
+        <div class="pipeline-body">
+          <h4>Generate updates</h4>
+          <p>For each file, Claude generates an updated version that reflects the code changes while preserving tone and structure. If the updated content is significantly shorter than the original, a warning is flagged for human review.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="pipeline-num">07</span>
+        <div class="pipeline-body">
+          <h4>Create the docs PR</h4>
+          <p>A new branch is created in the docs repo (<code>docpr/pr-{number}-{title}-{timestamp}</code>), the updated files are committed, and a pull request is opened with a summary of what changed and why.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="supported-formats">
+      <h2>Supported Formats</h2>
+      <p>docpr scans your docs repo for files matching these extensions:</p>
+      <ul>
+        <li><code>.md</code> — Markdown</li>
+        <li><code>.mdx</code> — MDX (Markdown + JSX)</li>
+        <li><code>.rst</code> — reStructuredText</li>
+        <li><code>.txt</code> — Plain text</li>
+        <li><code>.adoc</code> / <code>.asciidoc</code> — AsciiDoc</li>
+      </ul>
+    </section>
+
+    <section id="token-usage">
+      <h2>Token Usage</h2>
+      <p>
+        docpr makes three separate Claude calls per run (analysis, doc matching, and one generation call per file). Two controls help manage cost:
+      </p>
+      <ul>
+        <li><strong><code>max_doc_files</code></strong> — limits how many files are fetched and passed to the matching step. Default is 20.</li>
+        <li><strong>Diff truncation</strong> — diffs longer than 80,000 characters are automatically trimmed, keeping both the beginning and end of the diff.</li>
+      </ul>
+      <div class="callout callout-warn">
+        <p><strong>Note —</strong> Each documentation file that needs updating triggers its own Claude call (max 4,096 tokens per file). Repos with many affected docs will use more tokens.</p>
+      </div>
+    </section>
+
+    <section id="permissions">
+      <h2>Permissions</h2>
+
+      <h3>Source repository</h3>
+      <p>The workflow needs <code>contents: read</code> to allow the action to fetch the PR diff. The default <code>github.token</code> is sufficient.</p>
+
+      <h3>Documentation repository</h3>
+      <p>The <code>docs_repo_token</code> must have:</p>
+      <ul>
+        <li><code>contents: write</code> — to create branches and commit files</li>
+        <li><code>pull-requests: write</code> — to open and label pull requests</li>
+      </ul>
+      <div class="callout callout-info">
+        <p><strong>Tip —</strong> A fine-grained personal access token scoped to just the docs repo is the most secure approach.</p>
+      </div>
+
+      <h3>Trigger events</h3>
+      <p>The action supports both <code>pull_request</code> and <code>pull_request_target</code> event types. It verifies that the PR was actually merged before proceeding.</p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="site-footer">
+  <span>docpr.dev · MIT</span>
+  <a href="https://github.com/peterj/docpr" target="_blank" rel="noopener">View on GitHub</a>
+</footer>
+
+<script>
+  (() => {
+    const links = document.querySelectorAll('.sidebar nav a');
+    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.sidebar nav a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -75% 0px' });
+    sections.forEach(s => { if (s) io.observe(s); });
+  })();
+</script>
+
+</body>
+</html>
