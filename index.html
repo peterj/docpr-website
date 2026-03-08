@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>docpr.dev — docs that follow the code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f5f2ec;
+      color: #1a1814;
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .wrap {
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #2c5f3f;
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.05s;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 3.2rem;
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.15s;
+    }
+
+    h1 em { font-style: italic; color: #2c5f3f; }
+
+    .lede {
+      font-size: 0.85rem;
+      color: #7a7568;
+      line-height: 1.75;
+      margin-bottom: 2.4rem;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.25s;
+    }
+
+    .steps {
+      border-top: 1px solid #d4cfc4;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.35s;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 1.6rem 1fr;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid #d4cfc4;
+      align-items: baseline;
+    }
+
+    .step-num {
+      font-size: 0.62rem;
+      color: #b0a99e;
+    }
+
+    .step-text {
+      font-size: 0.78rem;
+      color: #4a4740;
+      line-height: 1.55;
+    }
+
+    .step-text strong {
+      font-weight: 400;
+      color: #1a1814;
+    }
+
+    .caveat {
+      font-size: 0.72rem;
+      color: #b0a99e;
+      margin-top: 1rem;
+      line-height: 1.6;
+      margin-bottom: 2.4rem;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.45s;
+    }
+
+    .caveat em {
+      font-style: normal;
+      color: #7a7568;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: up 0.5s ease forwards 0.5s;
+    }
+
+    a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.7rem 1.3rem;
+      border: 1px solid #1a1814;
+      color: #1a1814;
+      transition: background 0.2s, color 0.2s;
+    }
+    a:hover { background: #1a1814; color: #f5f2ec; }
+    .fill { background: #1a1814; color: #f5f2ec; }
+    .fill:hover { background: #2c5f3f; border-color: #2c5f3f; }
+
+    footer {
+      position: fixed;
+      bottom: 1.6rem;
+      font-size: 0.65rem;
+      color: #b0a99e;
+      letter-spacing: 0.06em;
+    }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <p class="tag">docpr.dev · GitHub Action</p>
+
+    <h1>You merged the PR.<br>Your docs <em>didn't.</em></h1>
+
+    <p class="lede">
+      docpr watches every merged pull request, figures out what changed,
+      and opens a PR in your documentation repository with the updates already written.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <span class="step-text"><strong>PR merges</strong> in your code repository — docpr wakes up.</span>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <span class="step-text"><strong>LLM reads the diff</strong> and identifies API changes, new behavior, removed features.</span>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <span class="step-text"><strong>Affected doc files are found</strong> across your documentation repository.</span>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <span class="step-text"><strong>A PR lands in your docs repo</strong> with the changes written, linked back to the source.</span>
+      </div>
+    </div>
+
+    <p class="caveat">
+      Nothing merges automatically. Every suggestion lands as a pull request —
+      <em>your team reviews, edits, and approves before anything ships.</em>
+    </p>
+
+    <div class="actions">
+      <a class="fill" href="https://github.com/peterj/docpr" target="_blank">View on GitHub</a>
+      <a href="https://github.com/peterj/docpr" target="_blank">Read the docs</a>
+    </div>
+  </div>
+
+  <footer>docpr.dev · MIT</footer>
+</body>
+</html>
